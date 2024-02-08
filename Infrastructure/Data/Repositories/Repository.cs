@@ -41,5 +41,10 @@ namespace Infrastructure.Data.Repositories
         {
             return _context.Set<T>().ToList();
         }
+
+        public bool Save()
+        {
+            return _context.SaveChanges() > 0;
+        }
     }
 }

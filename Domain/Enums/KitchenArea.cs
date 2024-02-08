@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.ValueObjects
+namespace Domain.Enums
 {
-    public class Client
+    public enum KitchenArea
     {
-        public string Name { get; set; }
-        public int Table { get; set; }
-
+        Fries,
+        Grill,
+        Salads,
+        Desserts
     }
 }

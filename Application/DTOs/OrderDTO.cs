@@ -12,9 +12,9 @@ namespace Application.DTOs
     {
         public int Id { get; set; }
         public DateTime OrderDate { get; set; }
-        public string CustomerName { get; set; }
-        public List <ProductDTO> Products { get; set; }
+        public required string CustomerName { get; set; }
+        public required List <ProductDTO> Products { get; set; }
         public OrderType OrderType { get; set; }
-        public DeliveryAddress DeliveryAddress { get; set; }
+        public DeliveryAddress? DeliveryAddress { get; set; }
     }
 }

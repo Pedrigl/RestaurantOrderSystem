@@ -11,11 +11,11 @@ namespace Domain.Entities
     public class Order
     {
         public int Id { get; set; }
-        public string CustomerName { get; set; }
+        public required string CustomerName { get; set; }
         public int TableNumber { get; set; }
         public DateTime OrderDate { get; set; }
-        public List<Product> Products { get; set; }
+        public required List<Product> Products { get; set; }
         public OrderType OrderType { get; set; }
-        public DeliveryAddress DeliveryAddress { get; set; }
+        public DeliveryAddress? DeliveryAddress { get; set; }
     }
 }

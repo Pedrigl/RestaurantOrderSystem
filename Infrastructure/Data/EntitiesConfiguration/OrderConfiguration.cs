@@ -15,6 +15,7 @@ namespace Infrastructure.Data.EntitiesConfiguration
         {
             
             builder.HasKey(o => o.Id);
+            builder.Property(o => o.Id).ValueGeneratedOnAdd();
 
             builder.Property(o => o.CustomerName).IsRequired().HasMaxLength(100);
 

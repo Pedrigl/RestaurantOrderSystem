@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,15 +19,15 @@ namespace Infrastructure.Data.Repositories
             _context = context;
         }
 
-        public async Task AddAsync(T entity)
+        public async Task<EntityEntry<T>> AddAsync(T entity)
         {
-            await _context.Set<T>().AddAsync(entity);
+            return await _context.Set<T>().AddAsync(entity);
+
         }
 
-        public void Update(T entity)
+        public EntityEntry<T> Update(T entity)
         {
-            
-            _context.Set<T>().Update(entity);
+            return _context.Set<T>().Update(entity);
         }
 
         public void Delete(T entity)

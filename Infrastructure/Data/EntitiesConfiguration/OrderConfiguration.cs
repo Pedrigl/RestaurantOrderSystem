@@ -15,13 +15,10 @@ namespace Infrastructure.Data.EntitiesConfiguration
         {
             
             builder.HasKey(o => o.Id);
+
             builder.Property(o => o.Id).ValueGeneratedOnAdd();
 
             builder.Property(o => o.CustomerName).IsRequired().HasMaxLength(100);
-
-            builder.Property(o => o.TableNumber).IsRequired(false);
-
-            builder.Property(o => o.DeliveryAddress).IsRequired(false).HasMaxLength(100);
 
             builder.Property(o => o.OrderDate).IsRequired();
 
@@ -29,7 +26,15 @@ namespace Infrastructure.Data.EntitiesConfiguration
 
             builder.HasMany(o => o.Products).WithOne().OnDelete(DeleteBehavior.Cascade);
 
-
+            builder.OwnsOne(o => o.DeliveryAddress, da =>
+            {
+                da.Property(d => d.Street).IsRequired().HasMaxLength(100);
+                da.Property(d => d.Number).IsRequired();
+                da.Property(d => d.City).IsRequired().HasMaxLength(100);
+                da.Property(d => d.State).IsRequired().HasMaxLength(100);
+                da.Property(d => d.Country).IsRequired().HasMaxLength(100);
+                da.Property(d => d.ZipCode).IsRequired().HasMaxLength(10);
+            });
 
         }
     }

@@ -32,11 +32,13 @@ namespace Application.Services
             return _mapper.Map<ProductDTO>(product);
         }
 
-        public async void CreateProduct(ProductDTO product)
+        public async Task<ProductDTO> CreateProduct(ProductDTO product)
         {
-            var newProduct = _mapper.Map<Product>(product);
-            await _productRepository.AddAsync(newProduct);
+            var mappedProduct = _mapper.Map<Product>(product);
+            var newProduct = await _productRepository.AddAsync(mappedProduct);
             await _productRepository.SaveAsync();
+            
+            return _mapper.Map<ProductDTO>(newProduct.CurrentValues);
         }
 
         public async void SubtractStock(int id, int quantity)

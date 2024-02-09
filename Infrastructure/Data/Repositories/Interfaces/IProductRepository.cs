@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +12,8 @@ namespace Infrastructure.Data.Repositories.Interfaces
     {
         Task<IEnumerable<Product>> GetAllAsync();
         Task<Product> GetByIdAsync(int id);
-        Task AddAsync(Product product);
-        void Update(Product product);
+        Task<EntityEntry<Product>> AddAsync(Product product);
+        EntityEntry<Product> Update(Product product);
         void Delete(Product product);
         Task<bool> SaveAsync();
     }

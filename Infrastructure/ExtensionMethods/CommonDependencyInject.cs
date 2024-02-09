@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Infrastructure.Data.Repositories;
+using Infrastructure.Data.Repositories.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +13,8 @@ namespace Infrastructure.ExtensionMethods
     {
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
-
+            services.AddTransient<IOrderRepository, OrderRepository>();
+            services.AddTransient<IProductRepository, ProductRepository>();
             return services;
         }
     }

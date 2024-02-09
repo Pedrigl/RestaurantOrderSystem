@@ -1,6 +1,6 @@
-@OrderService_HostAddress = http://localhost:5224
+@Restaurant_HostAddress = http://localhost:7237
 
-GET {{OrderService_HostAddress}}/weatherforecast/
+GET {{OrderService_HostAddress}}/api/Order/GetOrderById?orderId=1
 Accept: application/json
 
 ###

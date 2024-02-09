@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +12,8 @@ namespace Infrastructure.Data.Repositories.Interfaces
     {
         Task<IEnumerable<Order>> GetAllAsync();
         Task<Order> GetByIdAsync(int id);
-        Task AddAsync(Order order);
-        void Update(Order order);
+        Task<EntityEntry<Order>> AddAsync(Order order);
+        EntityEntry<Order> Update(Order order);
         void Delete(Order order);
         Task<bool> SaveAsync();
     }

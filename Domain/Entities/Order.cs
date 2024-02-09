@@ -12,7 +12,7 @@ namespace Domain.Entities
     {
         public int Id { get; set; }
         public required string CustomerName { get; set; }
-        public int TableNumber { get; set; }
+        public int? TableNumber { get; set; }
         public DateTime OrderDate { get; set; }
         public required List<Product> Products { get; set; }
         public OrderType OrderType { get; set; }

@@ -17,11 +17,11 @@ namespace Api.Controllers
         }
 
         [HttpGet("All")]
-        public IActionResult GetAllProducts()
+        public async Task<IActionResult> GetAllProducts()
         {
             try 
             {
-                var products = _productService.GetAllProducts();
+                var products = await _productService.GetAllProducts();
                 return Ok(products);
             }
             catch (Exception ex)
@@ -32,11 +32,11 @@ namespace Api.Controllers
         }
 
         [HttpGet("GetByID")]
-        public IActionResult GetProductById(int id)
+        public async Task<IActionResult> GetProductById(int id)
         {
             try
             {
-                var product = _productService.GetProductById(id);
+                var product = await _productService.GetProductById(id);
                 return Ok(product);
             }
             catch (Exception ex)
@@ -47,17 +47,18 @@ namespace Api.Controllers
         }
 
         [HttpPost("Create")]
-        public IActionResult CreateProduct([FromBody] ProductDTO product)
+        public async Task<IActionResult> CreateProduct([FromBody] ProductDTO product)
         {
             try
             {
-                _productService.CreateProduct(product);
-                return Ok();
+                var newProduct  = await _productService.CreateProduct(product);
+                
+                return Ok(newProduct);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                return BadRequest();
+                return BadRequest(ex);
             }
         }
 

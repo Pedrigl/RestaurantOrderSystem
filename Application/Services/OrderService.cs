@@ -1,6 +1,7 @@
 ﻿using Application.DTOs;
 using AutoMapper;
 using Domain.Entities;
+using Domain.Validation;
 using Infrastructure.Data.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -62,27 +63,31 @@ namespace Application.Services
             return _mapper.Map<OrderDTO>(order);
         }
 
-        public async Task<(bool isValid, List<string> validationErrors)> checkIfAllProductsAreValid(OrderDTO order)
+        public async Task<ErrorValidation> checkIfAllProductsAreValid(OrderDTO order)
         {
-            var validationErrors = new List<string>();
+            var validation = new ErrorValidation();
+
             foreach (var item in order.Products)
             {
-                var product = await _productRepository.GetByIdAsync(item.ProductId);
+                var product = await _productRepository.GetByIdAsync(item.Id);
 
                 if (product == null)
-                    validationErrors.Add($"Product with id {item.ProductId} does not exist");
+                {
+                    validation.validationErrors.Add($"Product with id {item.Id} does not exist");
+                }
 
-                if(product.Name != item.ProductName)
-                    validationErrors.Add($"Product name for product with id {item.ProductId} does not match");
+                else
+                {
+                    if (product.Name != item.Name)
+                        validation.validationErrors.Add($"Product name for product with id {item.Id} does not match");
 
-                if (product.Stock < item.Quantity)
-                    validationErrors.Add($"Product with id {item.ProductId} does not have enough stock");
+                    if (product.Stock < order.Products.Count(i => i == item))
+                        validation.validationErrors.Add($"Product with id {item.Id} does not have enough stock");
+                }
+                
             }
 
-            if (validationErrors.Count > 0)
-                return (false, validationErrors);
-
-            return (true, validationErrors);
+            return validation;
         }
     }
 }

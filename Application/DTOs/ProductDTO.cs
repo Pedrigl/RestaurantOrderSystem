@@ -12,7 +12,6 @@ namespace Application.DTOs
     public class ProductDTO
     {
         [Key]
-        [SwaggerSchema(ReadOnly = true)]
         public int Id { get; set; }
         public required string Name { get; set; }
         public decimal Price { get; set; }

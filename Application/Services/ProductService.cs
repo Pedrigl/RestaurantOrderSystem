@@ -37,7 +37,7 @@ namespace Application.Services
             var mappedProduct = _mapper.Map<Product>(product);
             var newProduct = await _productRepository.AddAsync(mappedProduct);
             await _productRepository.SaveAsync();
-            
+            //TODO: arrumar os retornos das classes que usam repositorio generico
             return _mapper.Map<ProductDTO>(newProduct.CurrentValues);
         }
 

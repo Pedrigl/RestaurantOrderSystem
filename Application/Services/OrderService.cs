@@ -52,8 +52,12 @@ namespace Application.Services
         public async Task DeleteOrder(int id)
         {
             var order = await _orderRepository.GetByIdAsync(id);
-            _orderRepository.Delete(order);
-            await _orderRepository.SaveAsync();
+            //TODO: Add error handling
+            if(order != null)
+            {
+                _orderRepository.Delete(order);
+                await _orderRepository.SaveAsync();
+            }
         }
 
         public async Task<OrderDTO> GetOrderById(int id)

@@ -53,8 +53,12 @@ namespace Api.Controllers
         {
             try
             {
-                await _orderService.CreateOrder(order);
-                return Ok();
+                var areOrderProductsValid = await _orderService.checkIfAllProductsAreValid(order);
+                if (!areOrderProductsValid.isValid)
+                    return BadRequest(areOrderProductsValid);
+
+                var newOrder = await _orderService.CreateOrder(order);
+                return Ok(newOrder);
             }
             catch (Exception ex)
             {
@@ -68,7 +72,26 @@ namespace Api.Controllers
         {
             try
             {
-                await _orderService.UpdateOrder(order);
+                var areOrderProductsValid = await _orderService.checkIfAllProductsAreValid(order);
+                if (!areOrderProductsValid.isValid)
+                    return BadRequest(areOrderProductsValid);
+
+                var newOrder = await _orderService.UpdateOrder(order);
+                return Ok(newOrder);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return BadRequest();
+            }
+        }
+
+        [HttpDelete("Delete")]
+        public async Task<IActionResult> DeleteOrder(int id)
+        {
+            try
+            {
+                await _orderService.DeleteOrder(id);
                 return Ok();
             }
             catch (Exception ex)

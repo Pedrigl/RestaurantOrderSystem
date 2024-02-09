@@ -12,7 +12,7 @@ namespace Infrastructure.Data.Repositories.Interfaces
     {
         Task<IEnumerable<Order>> GetAllAsync();
         Task<Order> GetByIdAsync(int id);
-        Task<EntityEntry<Order>> AddAsync(Order order);
+        Task<Order> AddAsync(Order order);
         EntityEntry<Order> Update(Order order);
         void Delete(Order order);
         Task<bool> SaveAsync();

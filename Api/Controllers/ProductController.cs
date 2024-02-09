@@ -76,5 +76,20 @@ namespace Api.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpPut("Update")]
+        public async Task<IActionResult> UpdateProduct([FromBody] ProductDTO product)
+        {
+            try
+            {
+                var updatedProduct = await _productService.UpdateProduct(product);
+                return Ok(updatedProduct);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return BadRequest();
+            }
+        }
     }
 }

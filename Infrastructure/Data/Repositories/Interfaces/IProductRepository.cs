@@ -12,8 +12,8 @@ namespace Infrastructure.Data.Repositories.Interfaces
     {
         Task<IEnumerable<Product>> GetAllAsync();
         Task<Product> GetByIdAsync(int id);
-        Task<EntityEntry<Product>> AddAsync(Product product);
-        EntityEntry<Product> Update(Product product);
+        Task<Product> AddAsync(Product product);
+        Product Update(Product product);
         void Delete(Product product);
         Task<bool> SaveAsync();
     }

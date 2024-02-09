@@ -38,7 +38,7 @@ namespace Application.Services
             var newProduct = await _productRepository.AddAsync(mappedProduct);
             await _productRepository.SaveAsync();
             //TODO: arrumar os retornos das classes que usam repositorio generico
-            return _mapper.Map<ProductDTO>(newProduct.CurrentValues);
+            return _mapper.Map<ProductDTO>(newProduct);
         }
 
         public async void SubtractStock(int id, int quantity)
@@ -57,16 +57,18 @@ namespace Application.Services
             await _productRepository.SaveAsync();
         }
 
-        public async void UpdateProduct(ProductDTO product)
+        public async Task<ProductDTO> UpdateProduct(ProductDTO product)
         {
-            var updatedProduct = _mapper.Map<Product>(product);
-            _productRepository.Update(updatedProduct);
+            var mappedProduct = _mapper.Map<Product>(product);
+            var newProduct = _productRepository.Update(mappedProduct);
             await _productRepository.SaveAsync();
+
+            return _mapper.Map<ProductDTO>(newProduct);
         }
 
         public async void DeleteProduct(int id)
         {
-            var product = _productRepository.GetByIdAsync(id).Result;
+            var product = await _productRepository.GetByIdAsync(id);
             _productRepository.Delete(product);
             await _productRepository.SaveAsync();
         }

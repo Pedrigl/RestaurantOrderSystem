@@ -19,15 +19,15 @@ namespace Infrastructure.Data.Repositories
             _context = context;
         }
 
-        public async Task<EntityEntry<T>> AddAsync(T entity)
+        public async Task<T> AddAsync(T entity)
         {
-            return await _context.Set<T>().AddAsync(entity);
-
+            var newEntity = await _context.Set<T>().AddAsync(entity);
+            return newEntity.Entity;
         }
 
-        public EntityEntry<T> Update(T entity)
+        public T Update(T entity)
         {
-            return _context.Set<T>().Update(entity);
+            return _context.Set<T>().Update(entity).Entity;
         }
 
         public void Delete(T entity)

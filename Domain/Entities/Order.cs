@@ -17,5 +17,9 @@ namespace Domain.Entities
         public required List<Product> Products { get; set; }
         public OrderType OrderType { get; set; }
         public DeliveryAddress? DeliveryAddress { get; set; }
+        public bool IsPaid { get; set; }
+        public DateTime? PaymentDate { get; set; }
+        public bool IsDelivered { get; set; }
+        public DateTime? DeliveryDate { get; set; }
     }
 }

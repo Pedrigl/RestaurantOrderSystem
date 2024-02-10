@@ -11,10 +11,10 @@ namespace Domain.Entities
     public class Order
     {
         public int Id { get; set; }
+        public int ProductId { get; set; }
         public required string CustomerName { get; set; }
         public int? TableNumber { get; set; }
         public DateTime OrderDate { get; set; }
-        public required List<Product> Products { get; set; }
         public OrderType OrderType { get; set; }
         //I assume that the delivery address is optional because the client may want to pick up the order or eat at the restaurant
         public DeliveryAddress? DeliveryAddress { get; set; }

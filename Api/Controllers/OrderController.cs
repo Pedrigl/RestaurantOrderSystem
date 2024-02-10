@@ -1,5 +1,6 @@
 ﻿using Application.DTOs;
 using Application.Services;
+using Domain.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -48,12 +49,27 @@ namespace Api.Controllers
             }
         }
 
-        [HttpPost("Create")]
-        public async Task<IActionResult> CreateOrder([FromBody] OrderDTO order)
+        [HttpGet("GetByKitchenArea")]
+        public IActionResult GetOrderByKitchenArea(KitchenArea kitchenArea)
         {
             try
             {
-                var areOrderProductsValid = await _orderService.checkIfAllProductsAreValid(order);
+                var orders = _orderService.GetOrdersByKitchenArea(kitchenArea);
+                return Ok(orders);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("Place")]
+        public async Task<IActionResult> PlaceOrder([FromBody] OrderDTO order)
+        {
+            try
+            {
+                var areOrderProductsValid = await _orderService.checkIfProductIsValid(order);
                 if (!areOrderProductsValid.isValid)
                     return BadRequest(areOrderProductsValid);
 
@@ -72,7 +88,7 @@ namespace Api.Controllers
         {
             try
             {
-                var areOrderProductsValid = await _orderService.checkIfAllProductsAreValid(order);
+                var areOrderProductsValid = await _orderService.checkIfProductIsValid(order);
                 if (!areOrderProductsValid.isValid)
                     return BadRequest(areOrderProductsValid);
 

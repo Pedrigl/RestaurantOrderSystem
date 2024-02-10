@@ -24,8 +24,6 @@ namespace Infrastructure.Data.EntitiesConfiguration
 
             builder.Property(o => o.OrderType).IsRequired();
 
-            builder.HasMany(o => o.Products).WithOne().OnDelete(DeleteBehavior.Cascade);
-
             builder.OwnsOne(o => o.DeliveryAddress, da =>
             {
                 da.Property(d => d.Street).IsRequired().HasMaxLength(100);

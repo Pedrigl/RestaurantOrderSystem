@@ -1,6 +1,8 @@
 ﻿using Application.DTOs;
+using Application.Services.Interfaces;
 using AutoMapper;
 using Domain.Entities;
+using Domain.Enums;
 using Domain.Validation;
 using Infrastructure.Data.Repositories.Interfaces;
 using System;
@@ -11,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Application.Services
 {
-    public class OrderService
+    public class OrderService : IOrderService
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IProductRepository _productRepository;
@@ -67,31 +69,38 @@ namespace Application.Services
             return _mapper.Map<OrderDTO>(order);
         }
 
-        public async Task<ErrorValidation> checkIfAllProductsAreValid(OrderDTO order)
+        public async Task<ErrorValidation> checkIfProductIsValid(OrderDTO order)
         {
             var validation = new ErrorValidation();
 
-            foreach (var item in order.Products)
+            var product = await _productRepository.GetByIdAsync(order.ProductId);
+
+            if (product == null)
             {
-                var product = await _productRepository.GetByIdAsync(item.Id);
+                validation.validationErrors.Add($"Product with id {order.ProductId} does not exist");
+            }
 
-                if (product == null)
-                {
-                    validation.validationErrors.Add($"Product with id {item.Id} does not exist");
-                }
-
-                else
-                {
-                    if (product.Name != item.Name)
-                        validation.validationErrors.Add($"Product name for product with id {item.Id} does not match");
-
-                    if (product.Stock < order.Products.Count(i => i == item))
-                        validation.validationErrors.Add($"Product with id {item.Id} does not have enough stock");
-                }
-                
+            else
+            {
+                if (product.Stock < 1)
+                    validation.validationErrors.Add($"Product with id {product.Id} does not have enough stock");
             }
 
             return validation;
+        }
+
+        public IEnumerable<OrderDTO> GetOrdersByKitchenArea(KitchenArea kitchenArea)
+        {
+            var products = _productRepository.GetWhere(p => p.KitchenArea == kitchenArea);
+            var kitchenOrders = new List<Order>();
+
+            foreach (var product in products)
+            {
+                var orders = _orderRepository.GetWhere(o => o.ProductId == product.Id && o.IsDone == false);
+                kitchenOrders.AddRange(orders);
+            }
+
+            return _mapper.Map<IEnumerable<OrderDTO>>(kitchenOrders);
         }
     }
 }

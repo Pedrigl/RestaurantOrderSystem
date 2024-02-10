@@ -45,6 +45,11 @@ namespace Infrastructure.Data.Repositories
             return await _context.Set<T>().ToListAsync();
         }
 
+        public IEnumerable<T> GetWhere(Func<T, bool> predicate)
+        {
+            return _context.Set<T>().Where(predicate);
+        }
+
         public async Task<bool> SaveAsync()
         {
             return await _context.SaveChangesAsync() > 0;

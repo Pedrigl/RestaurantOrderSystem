@@ -11,6 +11,7 @@ namespace Infrastructure.Data.Repositories.Interfaces
     public interface IProductRepository
     {
         Task<IEnumerable<Product>> GetAllAsync();
+        IEnumerable<Product> GetWhere(Func<Product, bool> predicate);
         Task<Product> GetByIdAsync(int id);
         Task<Product> AddAsync(Product product);
         Product Update(Product product);

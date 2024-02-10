@@ -11,6 +11,7 @@ namespace Infrastructure.Data.Repositories.Interfaces
     public interface IOrderRepository
     {
         Task<IEnumerable<Order>> GetAllAsync();
+        IEnumerable<Order> GetWhere(Func<Order, bool> predicate);
         Task<Order> GetByIdAsync(int id);
         Task<Order> AddAsync(Order order);
         Order Update(Order order);

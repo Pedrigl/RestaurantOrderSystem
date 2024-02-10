@@ -27,7 +27,7 @@ namespace Api.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -42,7 +42,7 @@ namespace Api.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -58,7 +58,7 @@ namespace Api.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
         }
 
@@ -73,7 +73,7 @@ namespace Api.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -88,7 +88,7 @@ namespace Api.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
     }

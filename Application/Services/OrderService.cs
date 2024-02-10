@@ -52,12 +52,12 @@ namespace Application.Services
         public async Task DeleteOrder(int id)
         {
             var order = await _orderRepository.GetByIdAsync(id);
-            //TODO: Add error handling
-            if(order != null)
-            {
-                _orderRepository.Delete(order);
-                await _orderRepository.SaveAsync();
-            }
+            
+            if(order == null)
+                throw new Exception("Order not found");
+
+            _orderRepository.Delete(order);
+            await _orderRepository.SaveAsync();
         }
 
         public async Task<OrderDTO> GetOrderById(int id)

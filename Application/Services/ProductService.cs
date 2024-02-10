@@ -37,7 +37,7 @@ namespace Application.Services
             var mappedProduct = _mapper.Map<Product>(product);
             var newProduct = await _productRepository.AddAsync(mappedProduct);
             await _productRepository.SaveAsync();
-            //TODO: arrumar os retornos das classes que usam repositorio generico
+            
             return _mapper.Map<ProductDTO>(newProduct);
         }
 
@@ -69,6 +69,9 @@ namespace Application.Services
         public async void DeleteProduct(int id)
         {
             var product = await _productRepository.GetByIdAsync(id);
+            if(product == null)
+                throw new Exception("Product not found");
+                
             _productRepository.Delete(product);
             await _productRepository.SaveAsync();
         }

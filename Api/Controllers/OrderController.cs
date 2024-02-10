@@ -1,5 +1,6 @@
 ﻿using Application.DTOs;
 using Application.Services;
+using Application.Services.Interfaces;
 using Domain.Enums;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,11 +10,11 @@ namespace Api.Controllers
     [Route("api/[controller]")]
     public class OrderController : ControllerBase
     {
-        private readonly OrderService _orderService;
+        private readonly IOrderService _orderService;
 
         private readonly ILogger<OrderController> _logger;
 
-        public OrderController(OrderService orderService, ILogger<OrderController> logger)
+        public OrderController(IOrderService orderService, ILogger<OrderController> logger)
         {
             _orderService = orderService;
             _logger = logger;

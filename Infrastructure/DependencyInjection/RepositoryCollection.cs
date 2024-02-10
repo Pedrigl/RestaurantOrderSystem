@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.ExtensionMethods
+namespace Infrastructure.DependencyInjection
 {
-    public static class CommonDependencyInject
+    public static class RepositoryCollection
     {
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {

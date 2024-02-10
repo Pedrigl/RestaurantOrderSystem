@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Application.DTOs;
+using Application.Services.Interfaces;
 using AutoMapper;
 using Domain.Entities;
 using Infrastructure.Data.Repositories.Interfaces;
 
 namespace Application.Services
 {
-    public class ProductService
+    public class ProductService : IProductService
     {
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
@@ -66,7 +67,7 @@ namespace Application.Services
             return _mapper.Map<ProductDTO>(newProduct);
         }
 
-        public async void DeleteProduct(int id)
+        public async Task DeleteProduct(int id)
         {
             var product = await _productRepository.GetByIdAsync(id);
             if(product == null)

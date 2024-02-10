@@ -1,8 +1,9 @@
 using Infrastructure.Data.Contexts;
 using Application.Web;
 using Microsoft.EntityFrameworkCore;
-using Infrastructure.ExtensionMethods;
+using Infrastructure.DependencyInjection;
 using Application.Services;
+using Application.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,9 +21,7 @@ builder.Services.AddSwaggerGen(swagger=>
 builder.Services.AddAutoMapper(typeof(AutoMapping));
 
 builder.Services.AddRepositories();
-
-builder.Services.AddScoped<ProductService>();
-builder.Services.AddScoped<OrderService>();
+builder.Services.AddServices();
 
 builder.Services.AddDbContext<RestaurantDbContext>(options =>
 {

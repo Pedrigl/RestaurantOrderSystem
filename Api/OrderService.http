@@ -1,6 +1,0 @@
-@Restaurant_HostAddress = http://localhost:7237
-
-GET {{OrderService_HostAddress}}/api/Order/GetOrderById?orderId=1
-Accept: application/json
-
-###

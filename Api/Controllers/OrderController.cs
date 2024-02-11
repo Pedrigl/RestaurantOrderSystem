@@ -74,7 +74,7 @@ namespace Api.Controllers
                 if (!areOrderProductsValid.isValid)
                     return BadRequest(areOrderProductsValid);
 
-                var newOrder = await _orderService.CreateOrder(order);
+                var newOrder = await _orderService.PlaceOrder(order);
                 return Ok(newOrder);
             }
             catch (Exception ex)

@@ -12,7 +12,7 @@ namespace Application.Services.Interfaces
     public interface IOrderService
     {
         Task<IEnumerable<OrderDTO>> GetAllOrders();
-        Task<OrderDTO> CreateOrder(OrderDTO order);
+        Task<OrderDTO> PlaceOrder(OrderDTO order);
         Task<OrderDTO> UpdateOrder(OrderDTO order);
         Task DeleteOrder(int id);
         Task<OrderDTO> GetOrderById(int id);

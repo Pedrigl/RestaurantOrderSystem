@@ -33,7 +33,7 @@ namespace Application.Services
             return _mapper.Map<IEnumerable<OrderDTO>>(orders);
         }
 
-        public async Task<OrderDTO> CreateOrder(OrderDTO order)
+        public async Task<OrderDTO> PlaceOrder(OrderDTO order)
         {
             var mappedOrder = _mapper.Map<Order>(order);
             var newOrder = await _orderRepository.AddAsync(mappedOrder);
@@ -72,18 +72,22 @@ namespace Application.Services
         public async Task<ErrorValidation> checkIfProductIsValid(OrderDTO order)
         {
             var validation = new ErrorValidation();
-
+            validation.isValid = true;
             var product = await _productRepository.GetByIdAsync(order.ProductId);
 
             if (product == null)
             {
+                validation.isValid = false;
                 validation.validationErrors.Add($"Product with id {order.ProductId} does not exist");
             }
 
             else
             {
                 if (product.Stock < 1)
+                {
+                    validation.isValid = false;
                     validation.validationErrors.Add($"Product with id {product.Id} does not have enough stock");
+                }
             }
 
             return validation;

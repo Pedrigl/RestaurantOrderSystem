@@ -43,11 +43,10 @@ namespace Application.Tests
                 Id = 2,
                 Name = "TestProductNoStock",
                 Price = 10,
-                KitchenArea = KitchenArea.Fries,
+                KitchenArea = KitchenArea.Grill,
                 Description = "TestDescription",
                 Stock = 0
             });
-
 
             await orderRepository.AddAsync(new Order
             {
@@ -139,6 +138,40 @@ namespace Application.Tests
 
             var errorValidation = await _orderService.checkIfProductIsValid(order);
             errorValidation.isValid.Should().BeFalse();
+        }
+
+        [TestMethod]
+        public async Task ShouldUpdateOrder()
+        {
+            var order = await _orderService.GetOrderById(1);
+            order.OrderDate = DateTime.Now;
+            order.IsDone = true;
+
+            var updatedOrder = await _orderService.UpdateOrder(order);
+            updatedOrder.IsDone.Should().BeTrue();
+        }
+
+        [TestMethod]
+        public async Task ShouldGetOrdersBasedOnKitchenArea()
+        {
+            var friesOrders = _orderService.GetOrdersByKitchenArea(KitchenArea.Fries);
+            friesOrders.Should().HaveCount(1);
+
+            var newOrder = await _orderService.PlaceOrder(new OrderDTO
+            {
+                CustomerName = "TestCostumer",
+                ProductId = 2,
+                OrderType = OrderType.Delivery,
+                DeliveryAddress = new DeliveryAddress("TestStreet", 1, "TestCity", "TestState", "TestCountry", "TestZipCode"),
+                IsDone = false,
+                IsPaid = false,
+                IsDelivered = false,
+            });
+
+            var grillOrders = _orderService.GetOrdersByKitchenArea(KitchenArea.Grill);
+            grillOrders.Should().HaveCount(1);
+
+            grillOrders.Should().NotBeEquivalentTo(friesOrders);
         }
 
 

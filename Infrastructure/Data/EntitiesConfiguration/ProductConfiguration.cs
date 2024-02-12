@@ -25,7 +25,7 @@ namespace Infrastructure.Data.EntitiesConfiguration
 
             builder.Property(p => p.Stock).IsRequired();
 
-            builder.Property(p => p.KitchenArea).IsRequired();
+            builder.Property(p => p.KitchenArea).IsRequired().HasConversion<int>();
         }
     }
 }

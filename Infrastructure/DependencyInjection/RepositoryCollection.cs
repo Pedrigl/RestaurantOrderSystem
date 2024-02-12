@@ -15,6 +15,7 @@ namespace Infrastructure.DependencyInjection
         {
             services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddTransient<IProductRepository, ProductRepository>();
+            services.AddTransient<ILoginRepository, LoginRepository>(); 
             return services;
         }
     }

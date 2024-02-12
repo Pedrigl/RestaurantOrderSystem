@@ -22,7 +22,7 @@ namespace Infrastructure.Data.EntitiesConfiguration
 
             builder.Property(o => o.OrderDate).IsRequired();
 
-            builder.Property(o => o.OrderType).IsRequired();
+            builder.Property(o => o.OrderType).IsRequired().HasConversion<int>();
 
             builder.OwnsOne(o => o.DeliveryAddress, da =>
             {

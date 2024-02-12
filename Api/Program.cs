@@ -22,6 +22,8 @@ builder.Services.AddAutoMapper(typeof(AutoMapping));
 
 builder.Services.AddRepositories();
 builder.Services.AddServices();
+builder.Services.AddAuthentication()
+    .AddBearerToken();
 
 builder.Services.AddDbContext<RestaurantDbContext>(options =>
 {

@@ -83,7 +83,8 @@ namespace Api.Controllers
         {
             try
             {
-                var updatedProduct = await _productService.UpdateProduct(product);
+                await _productService.UpdateProduct(product);
+                var updatedProduct = await _productService.GetProductById(product.Id);
                 return Ok(updatedProduct);
             }
             catch (Exception ex)

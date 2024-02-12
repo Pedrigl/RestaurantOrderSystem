@@ -12,7 +12,7 @@ namespace Infrastructure.Data.Repositories
 {
     public class Repository<T> where T : class
     {
-        protected readonly RestaurantDbContext _context;
+        protected readonly RestaurantDbContext _context;        
 
         public Repository(RestaurantDbContext context)
         {
@@ -25,9 +25,9 @@ namespace Infrastructure.Data.Repositories
             return newEntity.Entity;
         }
 
-        public T Update(T entity)
+        public void Update(T entity)
         {
-            return _context.Set<T>().Update(entity).Entity;
+            _context.Set<T>().Update(entity);
         }
 
         public void Delete(T entity)

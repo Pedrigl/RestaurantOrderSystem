@@ -58,13 +58,11 @@ namespace Application.Services
             await _productRepository.SaveAsync();
         }
 
-        public async Task<ProductDTO> UpdateProduct(ProductDTO product)
+        public async Task UpdateProduct(ProductDTO product)
         {
             var mappedProduct = _mapper.Map<Product>(product);
-            var newProduct = _productRepository.Update(mappedProduct);
+            _productRepository.Update(mappedProduct);
             await _productRepository.SaveAsync();
-
-            return _mapper.Map<ProductDTO>(newProduct);
         }
 
         public async Task DeleteProduct(int id)

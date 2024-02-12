@@ -14,7 +14,7 @@ namespace Infrastructure.Data.Repositories.Interfaces
         IEnumerable<Order> GetWhere(Func<Order, bool> predicate);
         Task<Order> GetByIdAsync(int id);
         Task<Order> AddAsync(Order order);
-        Order Update(Order order);
+        void Update(Order order);
         void Delete(Order order);
         Task<bool> SaveAsync();
     }

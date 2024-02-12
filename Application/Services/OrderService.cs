@@ -42,13 +42,11 @@ namespace Application.Services
             return _mapper.Map<OrderDTO>(newOrder);
         }
         
-        public async Task<OrderDTO> UpdateOrder(OrderDTO order)
+        public async Task UpdateOrder(OrderDTO order)
         {
             var mappedOrder = _mapper.Map<Order>(order);
-            var updatedOrder = _orderRepository.Update(mappedOrder);
+            _orderRepository.Update(mappedOrder);
             await _orderRepository.SaveAsync();
-
-            return _mapper.Map<OrderDTO>(updatedOrder);
         }
 
         public async Task DeleteOrder(int id)

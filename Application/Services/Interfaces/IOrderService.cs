@@ -13,7 +13,7 @@ namespace Application.Services.Interfaces
     {
         Task<IEnumerable<OrderDTO>> GetAllOrders();
         Task<OrderDTO> PlaceOrder(OrderDTO order);
-        Task<OrderDTO> UpdateOrder(OrderDTO order);
+        Task UpdateOrder(OrderDTO order);
         Task DeleteOrder(int id);
         Task<OrderDTO> GetOrderById(int id);
         Task<ErrorValidation> checkIfProductIsValid(OrderDTO order);

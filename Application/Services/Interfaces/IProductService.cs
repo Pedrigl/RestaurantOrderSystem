@@ -11,7 +11,7 @@ namespace Application.Services.Interfaces
     {
         Task<IEnumerable<ProductDTO>> GetAllProducts();
         Task<ProductDTO> CreateProduct(ProductDTO product);
-        Task<ProductDTO> UpdateProduct(ProductDTO product);
+        Task UpdateProduct(ProductDTO product);
         Task DeleteProduct(int id);
         Task<ProductDTO> GetProductById(int id);
         void SubtractStock(int id, int quantity);

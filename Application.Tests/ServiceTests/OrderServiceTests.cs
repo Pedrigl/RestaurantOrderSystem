@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Infrastructure.Data.Contexts;
 using Application.Tests.Configuration;
 
-namespace Application.Tests
+namespace Application.Tests.ServiceTests
 {
     [TestClass]
     public class OrderServiceTests
@@ -75,11 +75,11 @@ namespace Application.Tests
                 IsDone = false,
                 IsPaid = false,
                 IsDelivered = false,
-                
+
             });
             var persistedOrder = await _orderService.GetOrderById(newOrder.Id);
 
-            
+
             persistedOrder.Should().NotBeNull();
         }
 
@@ -146,8 +146,8 @@ namespace Application.Tests
             var order = await _orderService.GetOrderById(1);
             order.OrderDate = DateTime.Now;
             order.IsDone = true;
-
-            var updatedOrder = await _orderService.UpdateOrder(order);
+            await _orderService.UpdateOrder(order);
+            var updatedOrder = await _orderService.GetOrderById(order.Id);
             updatedOrder.IsDone.Should().BeTrue();
         }
 

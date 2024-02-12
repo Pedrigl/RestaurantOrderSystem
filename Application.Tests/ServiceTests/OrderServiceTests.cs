@@ -8,11 +8,10 @@ using Domain.ValueObjects;
 using Application.Services.Interfaces;
 using FluentAssertions;
 using Infrastructure.Data.Repositories;
-using Application.Tests.Data;
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.Data.Contexts;
-using Application.Tests.Configuration;
-
+using TestUtilities.Data;
+using TestUtilities.Data.Configuration;
 namespace Application.Tests.ServiceTests
 {
     [TestClass]
@@ -26,7 +25,7 @@ namespace Application.Tests.ServiceTests
             RestaurantDbContext dbContext = FakeDbContext.GetFakeDbContext();
             IOrderRepository orderRepository = new OrderRepository(dbContext);
             IProductRepository productRepository = new ProductRepository(dbContext);
-            _orderService = new OrderService(orderRepository, productRepository, Configuration.AutoMapper.GetMapper());
+            _orderService = new OrderService(orderRepository, productRepository, FakeAutoMapper.GetMapper());
 
             await productRepository.AddAsync(new Product
             {

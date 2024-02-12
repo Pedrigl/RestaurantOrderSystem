@@ -1,7 +1,6 @@
 ﻿using Application.DTOs;
 using Application.Services;
 using Application.Services.Interfaces;
-using Application.Tests.Data;
 using Domain.Entities;
 using Domain.Enums;
 using FluentAssertions;
@@ -13,6 +12,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TestUtilities.Data;
+using TestUtilities.Data.Configuration;
 
 namespace Application.Tests.ServiceTests
 {
@@ -26,7 +27,7 @@ namespace Application.Tests.ServiceTests
         {
             RestaurantDbContext dbContext = FakeDbContext.GetFakeDbContext();
             IProductRepository productRepository = new ProductRepository(dbContext);
-            _productService = new ProductService(productRepository, Configuration.AutoMapper.GetMapper());
+            _productService = new ProductService(productRepository, FakeAutoMapper.GetMapper());
 
             await productRepository.AddAsync(new Product
             {

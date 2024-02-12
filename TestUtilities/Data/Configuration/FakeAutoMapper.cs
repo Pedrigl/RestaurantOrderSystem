@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Application.Web;
-namespace Application.Tests.Configuration
+namespace TestUtilities.Data.Configuration
 {
-    public static class AutoMapper
+    public class FakeAutoMapper
     {
         public static Mapper GetMapper()
         {

@@ -20,7 +20,9 @@ namespace Infrastructure.Data.EntitiesConfiguration
 
             builder.Property(l => l.Username).IsRequired().HasMaxLength(100);
 
-            builder.Property(l => l.Password).IsRequired().HasMaxLength(100);
+            builder.Property(l => l.Password).IsRequired().HasMaxLength(255);
+            
+            builder.Property(l => l.JWtToken).HasMaxLength(255);
 
             builder.Property(l => l.AccessLevel).IsRequired().HasConversion<int>();
         }

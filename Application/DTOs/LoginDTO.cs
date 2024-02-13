@@ -1,14 +1,13 @@
 ﻿using Domain.Enums;
-using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Entities
+namespace Application.DTOs
 {
-    public class Login
+    public class LoginDTO
     {
         public int Id { get; set; }
         public string DisplayName { get; set; }

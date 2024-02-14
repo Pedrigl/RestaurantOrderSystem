@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Infrastructure.DependencyInjection;
 using Application.Services;
 using Application.DependencyInjection;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Infrastructure.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,8 +24,7 @@ builder.Services.AddAutoMapper(typeof(AutoMapping));
 
 builder.Services.AddRepositories();
 builder.Services.AddServices();
-builder.Services.AddAuthentication()
-    .AddBearerToken();
+builder.Services.AddJwtAuthentication(new JwtManager(builder.Configuration).GenerateKey());
 
 builder.Services.AddDbContext<RestaurantDbContext>(options =>
 {

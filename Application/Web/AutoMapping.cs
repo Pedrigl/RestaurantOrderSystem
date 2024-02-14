@@ -17,6 +17,8 @@ namespace Application.Web
             CreateMap<OrderDTO, Order>();
             CreateMap<Product, ProductDTO>();
             CreateMap<ProductDTO, Product>();
+            CreateMap<Login, LoginDTO>();
+            CreateMap<LoginDTO, Login>();
         }
     }
 }

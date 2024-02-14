@@ -46,7 +46,7 @@ namespace Application.Services
         {
             var product = await _productRepository.GetByIdAsync(id);
             product.Stock -= quantity;
-            _productRepository.Update(product);
+            _productRepository.Update(product.Id,product);
             await _productRepository.SaveAsync();
         }
 
@@ -54,14 +54,14 @@ namespace Application.Services
         {
             var product = await _productRepository.GetByIdAsync(id);
             product.Stock += quantity;
-            _productRepository.Update(product);
+            _productRepository.Update(product.Id, product);
             await _productRepository.SaveAsync();
         }
 
         public async Task UpdateProduct(ProductDTO product)
         {
             var mappedProduct = _mapper.Map<Product>(product);
-            _productRepository.Update(mappedProduct);
+            _productRepository.Update(mappedProduct.Id, mappedProduct);
             await _productRepository.SaveAsync();
         }
 

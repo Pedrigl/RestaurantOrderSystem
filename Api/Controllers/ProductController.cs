@@ -1,10 +1,12 @@
 ﻿using Application.DTOs;
 using Application.Services;
 using Application.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ProductController : ControllerBase
@@ -47,6 +49,7 @@ namespace Api.Controllers
             }
         }
 
+        [Authorize(Roles = "Employee")]
         [HttpPost("Create")]
         public async Task<IActionResult> CreateProduct([FromBody] ProductDTO product)
         {
@@ -63,6 +66,7 @@ namespace Api.Controllers
             }
         }
 
+        [Authorize(Roles= "Employee")]
         [HttpDelete("Delete")]
         public IActionResult DeleteProduct(int id)
         {
@@ -78,6 +82,7 @@ namespace Api.Controllers
             }
         }
 
+        [Authorize("Employee")]
         [HttpPut("Update")]
         public async Task<IActionResult> UpdateProduct([FromBody] ProductDTO product)
         {

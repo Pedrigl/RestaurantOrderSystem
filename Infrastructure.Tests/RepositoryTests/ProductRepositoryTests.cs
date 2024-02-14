@@ -71,7 +71,7 @@ namespace Infrastructure.Tests.RepositoryTests
         {
             var product = await _productRepository.GetByIdAsync(1);
             product.Name = "UpdatedProduct";
-            _productRepository.Update(product);
+            _productRepository.Update(product.Id, product);
             await _productRepository.SaveAsync();
 
             var updatedProduct = await _productRepository.GetByIdAsync(1);
@@ -118,7 +118,7 @@ namespace Infrastructure.Tests.RepositoryTests
         {
             var product = await _productRepository.GetByIdAsync(1);
             product.Name = "UpdatedProduct";
-            _productRepository.Update(product);
+            _productRepository.Update(product.Id, product);
             var result = await _productRepository.SaveAsync();
             result.Should().BeTrue();
         }

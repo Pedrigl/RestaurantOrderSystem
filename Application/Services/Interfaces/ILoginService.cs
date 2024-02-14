@@ -9,10 +9,10 @@ namespace Application.Services.Interfaces
 {
     public interface ILoginService
     {
-        Task<LoginDTO> LoginAsync(LoginDTO login);
+        Task<LoginDTO> LoginAsync(string username, string password);
         Task<LoginDTO> RegisterAsync(LoginDTO login);
-        Task<LoginDTO> UpdateLogin(LoginDTO login);
-        Task DeleteLogin(LoginDTO login);
+        Task UpdateLogin(LoginDTO login);
+        Task DeleteLogin(int loginId);
 
     }
 }

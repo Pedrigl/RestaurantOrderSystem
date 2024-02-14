@@ -15,6 +15,7 @@ namespace Application.DependencyInjection
         {
             services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<ILoginService, LoginService>();
             return services;
         }
     }

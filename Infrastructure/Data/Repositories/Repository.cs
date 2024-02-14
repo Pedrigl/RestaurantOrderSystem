@@ -25,9 +25,16 @@ namespace Infrastructure.Data.Repositories
             return newEntity.Entity;
         }
 
-        public void Update(T entity)
+        public void Update(int id,T entity)
         {
-            _context.Set<T>().Update(entity);
+            //I know this causes redundancy, but entity framework would break because of the way it tracks entities, is says that the entity is already being tracked by the context
+            //I think this could be fixed by checking if entity exists direclty in the repository but that kind of breaks the single responsibility principle
+            var dbEntity = _context.Set<T>().Find(id);
+            if (dbEntity != null)
+            {
+                _context.Entry(dbEntity).CurrentValues.SetValues(entity);
+                _context.Entry(dbEntity).State = EntityState.Modified;
+            }
         }
 
         public void Delete(T entity)

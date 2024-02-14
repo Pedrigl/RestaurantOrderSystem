@@ -45,7 +45,7 @@ namespace Application.Services
         public async Task UpdateOrder(OrderDTO order)
         {
             var mappedOrder = _mapper.Map<Order>(order);
-            _orderRepository.Update(mappedOrder);
+            _orderRepository.Update(mappedOrder.Id, mappedOrder);
             await _orderRepository.SaveAsync();
         }
 

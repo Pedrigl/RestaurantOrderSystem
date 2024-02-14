@@ -12,7 +12,7 @@ namespace Infrastructure.Data.Repositories.Interfaces
         IEnumerable<Login> GetWhere(Func<Login, bool> predicate);
         Task<Login> GetByIdAsync(int id);
         Task<Login> AddAsync(Login login);
-        void Update(Login login);
+        void Update(int loginId, Login login);
         void Delete(Login login);
         Task<bool> SaveAsync();
     }

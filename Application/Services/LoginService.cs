@@ -21,7 +21,7 @@ namespace Application.Services
         private readonly ILoginRepository _loginRepository;
         private readonly JwtManager _jwtManager;
         private readonly IMapper _mapper;
-        public LoginService(ILoginRepository loginRepository, IConfigurationManager configuration, IMapper mapper)
+        public LoginService(ILoginRepository loginRepository, IConfiguration configuration, IMapper mapper)
         {
             _loginRepository = loginRepository;
             _jwtManager = new JwtManager(configuration);
@@ -43,18 +43,16 @@ namespace Application.Services
             }
         }
 
-        public async Task<LoginDTO> LoginAsync(LoginDTO login)
+        public async Task<LoginDTO> LoginAsync(string username, string password)
         {
-            var loginEntity = _mapper.Map<Login>(login);
-            loginEntity.Password = HashPassword(loginEntity.Password);
-            var loginResult = _loginRepository.GetWhere(l => l.Username == loginEntity.Username && l.Password == loginEntity.Password).FirstOrDefault();
+            var loginResult = _loginRepository.GetWhere(l => l.Username == username && l.Password == HashPassword(password)).FirstOrDefault();
 
             if (loginResult != null)
             {
                 loginResult.JWtToken = GenerateToken(loginResult);
-                loginResult.TokenExpiration = DateTime.UtcNow.AddHours(1);
+                loginResult.TokenExpiration = DateTime.Now.AddHours(1);
 
-                _loginRepository.Update(loginResult);
+                _loginRepository.Update(loginResult.Id,loginResult);
                 await _loginRepository.SaveAsync();
             }
             
@@ -64,35 +62,64 @@ namespace Application.Services
         public async Task<LoginDTO> RegisterAsync(LoginDTO login)
         {
             var loginEntity = _mapper.Map<Login>(login);
+
+            if(!await VerifyIfUserNameIsAvailable(loginEntity))
+                throw new Exception("Username is already taken");
+
             loginEntity.Password = HashPassword(loginEntity.Password);
             var loginResult = await _loginRepository.AddAsync(loginEntity);
             await _loginRepository.SaveAsync();
             return _mapper.Map<LoginDTO>(loginResult);
         }
 
-        public async Task<LoginDTO> UpdateLogin(LoginDTO login)
+        private async Task<bool> VerifyIfUserExists(int id)
         {
-            var loginEntity = _mapper.Map<Login>(login);
-            var loginResult = _loginRepository.GetWhere(l => l.Username == loginEntity.Username).FirstOrDefault();
-
-            if (loginResult != null)
-            {
-                loginResult.DisplayName = loginEntity.DisplayName;
-                loginResult.AccessLevel = loginEntity.AccessLevel;
-                _loginRepository.Update(loginResult);
-                await _loginRepository.SaveAsync();
-            }
-            return _mapper.Map<LoginDTO>(loginResult);
+            var loginResult = await _loginRepository.GetByIdAsync(id);
+            return loginResult != null;
         }
 
-        public async Task DeleteLogin(LoginDTO login)
+        private async Task<bool> VerifyIfUserNameIsAvailable(Login login)
         {
+            var usernameCheckLogin = _loginRepository.GetWhere(l => l.Username == login.Username).FirstOrDefault();
+
+            var idCheckLogin = await _loginRepository.GetByIdAsync(login.Id);
+
+            if(usernameCheckLogin == null)
+                return true;
+
+            if (usernameCheckLogin.Id == idCheckLogin.Id)
+                return true;
+                
+            //this checks if the username is already taken by another user while not breaking the update if the username is the same
+
+            return false;
+        }
+
+        public async Task UpdateLogin(LoginDTO login)
+        {
+            if (!await VerifyIfUserExists(login.Id))
+                throw new Exception("Login not found");
+
             var loginEntity = _mapper.Map<Login>(login);
+
+            login.Password = HashPassword(login.Password);
+            _loginRepository.Update(loginEntity.Id, loginEntity);
+            await _loginRepository.SaveAsync();
+
+        }
+
+        public async Task DeleteLogin(int id)
+        {
+            if (!await VerifyIfUserExists(id))
+                throw new Exception("Login not found");
+
+            var loginEntity = await _loginRepository.GetByIdAsync(id);
+
             _loginRepository.Delete(loginEntity);
             await _loginRepository.SaveAsync();
         }
 
-        public string GenerateToken(Login login)
+        private string GenerateToken(Login login)
         {
             var key = _jwtManager.GenerateKey();
             var tokenHandler = new JwtSecurityTokenHandler();

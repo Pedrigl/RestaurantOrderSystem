@@ -10,8 +10,8 @@ namespace Infrastructure.Security
 {
     public class JwtManager
     {
-        private readonly IConfigurationManager _configuration;
-        public JwtManager(IConfigurationManager configuration)
+        private readonly IConfiguration _configuration;
+        public JwtManager(IConfiguration configuration)
         {
             _configuration = configuration;
         }
@@ -25,7 +25,9 @@ namespace Infrastructure.Security
             if(key == null)
                 throw new Exception("Key not found in configuration file");
 
-            return Encoding.UTF8.GetBytes(key); ;
+            
+
+            return Encoding.UTF8.GetBytes(key);;
         }
     }
 }
